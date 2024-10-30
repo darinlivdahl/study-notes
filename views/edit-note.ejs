@@ -27,7 +27,7 @@
                 <% if (locals.allCategories) { %>
                 <div class="mb-3">
                     <label for="categorySelection" class="form-label">Categories</label>
-                    <select class="form-select" id="categorySelection" name="categories" size="<%= allCategories.length %>" multiple aria-label="Select multiple categories." required>
+                    <select class="form-select" id="categorySelection" name="categories" size="<%= allCategories.length %>" multiple aria-label="Select multiple categories." aria-describedby="categoriesHelp" required>
                         <% allCategories.forEach(c => { %>
                             <% if (locals.selectedCategories && selectedCategories.find((sc) => c.id == sc.category_id) !== undefined) { %>
                                 <option value="<%= c.id %>" selected><%= c.title %></option>
@@ -36,6 +36,7 @@
                             <% } %>
                         <% }); %>
                     </select>
+                    <div id="categoriesHelp" class="form-text">For windows: Hold down the control (ctrl) button to select multiple options. For Mac: Hold down the command button to select multiple options.</div>
                 </div>
                 <% } %>
                 <div class="float-start">

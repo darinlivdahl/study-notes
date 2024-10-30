@@ -25,11 +25,12 @@
                 <div class="mb-3">
                     <label for="categorySelection" class="form-label">Categories</label>
                     <% if (locals.categories) { %>
-                    <select class="form-select" id="categorySelection" name="categories" size="<%= categories.length %>" multiple aria-label="Select multiple categories." required>
+                    <select class="form-select" id="categorySelection" name="categories" size="<%= categories.length %>" multiple aria-label="Select multiple categories." aria-describedby="categoriesHelp" required>
                         <% categories.forEach(c => { %>
                         <option value="<%= c.id %>"><%= c.title %></option>
                         <% }); %>
                     </select>
+                    <div id="categoriesHelp" class="form-text">For windows: Hold down the control (ctrl) button to select multiple options. For Mac: Hold down the command button to select multiple options.</div>
                     <% } %>
                 </div>
                 <a href="/" class="btn btn-light">Cancel</a>
@@ -44,4 +45,5 @@ window.onload = function() {
     document.getElementById("titleInput").focus();
 }
 </script>
+
 <%- include('partials/footer.ejs') %>

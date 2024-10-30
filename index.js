@@ -56,7 +56,7 @@ app.get("/", async (req, res) => {
         if (result.rows.length > 0) {
             data = result.rows;
         }
-        res.render("index.ejs", { notes: data });
+        res.render("index.ejs", { activeNav: "home", notes: data });
     } catch(err) {
         console.error(err);
     }
@@ -65,7 +65,7 @@ app.get("/", async (req, res) => {
 /* Note routes */
 app.get("/add-note", async (req, res) => {
     const data = await getCategories();
-    res.render("add-note.ejs", { categories: data });
+    res.render("add-note.ejs", { activeNav: "home", categories: data });
 });
 
 app.post("/submit-note", async (req, res) => {
@@ -111,7 +111,7 @@ app.get("/edit-note/:id", async (req, res) => {
     } catch(err) {
         console.error(err);
     }
-    res.render("edit-note.ejs", { note: noteData, allCategories: allCategoryData, selectedCategories: selectedCategoryData });
+    res.render("edit-note.ejs", { activeNav: "home", note: noteData, allCategories: allCategoryData, selectedCategories: selectedCategoryData });
 });
 
 app.post("/save-note", async (req, res) => {
@@ -203,11 +203,11 @@ app.post("/delete-note", async (req, res) => {
 
 app.get("/categories", async (req, res) => {
     const data = await getCategories();
-    res.render("categories.ejs", { categories: data });
+    res.render("categories.ejs", { activeNav: "categories", categories: data });
 });
 
 app.get("/add-category", async (req, res) => {
-    res.render("add-category.ejs");
+    res.render("add-category.ejs", { activeNav: "categories" });
 });
 
 app.post("/submit-category", async (req, res) => {
@@ -216,7 +216,7 @@ app.post("/submit-category", async (req, res) => {
         await db.query("INSERT INTO category (title) VALUES ($1)",[categoryTitle]);
         res.redirect('/categories')
     } catch(err) {
-        res.render('add-category.ejs', { error: err.detail })
+        res.render('add-category.ejs', { activeNav: "categories", error: err.detail })
     }
 });
 
@@ -230,7 +230,7 @@ app.get("/edit-category/:id", async (req, res) => {
     } catch(err) {
         console.error(err);
     }
-    res.render("edit-category.ejs", { category: data });
+    res.render("edit-category.ejs", { activeNav: "categories", category: data });
 });
 
 app.post("/save-category", async (req, res) => {
@@ -260,31 +260,58 @@ app.post("/delete-category", async (req, res) => {
     }
 });
 
+app.get("/category/:id", async (req,res) => {
+    const catId = parseInt(req.params.id);
+    let data = [];
+    let categoryTitle = '';
+
+    // Get category title
+    try {
+        const categoryResult = await db.query("SELECT title FROM category WHERE id = $1", [catId]);
+        if (categoryResult.rows.length !== 0) {
+            categoryTitle = categoryResult.rows[0].title;
+        }
+    } catch(err) {
+        console.error(err);
+    }
+
+    // Get category notes
+    try {
+        const result = await db.query("SELECT note.title, note.reference_url, note.created_date, note.description, category_item.note_id FROM category_item JOIN note ON note.id = category_item.note_id WHERE category_item.category_id = $1 ORDER BY note.id DESC", [catId]);
+        if (result.rows.length > 0) {
+            data = result.rows;
+        }
+        res.render("category.ejs", { activeNav: "categories", title: categoryTitle, notes: data });
+    } catch(err) {
+        console.error(err);
+    }
+});
+
 /* Quiz routes */
 
 app.get("/quizzes", async (req, res) => {
-    res.render("quizzes.ejs");
+    res.render("quizzes.ejs", { activeNav: "quizzes" });
 });
 
 app.get("/add-quiz", async (req, res) => {
-    res.render("add-quiz.ejs");
+    res.render("add-quiz.ejs", { activeNav: "quizzes" });
 });
 
 app.post("/submit-quiz", (req, res) => {
-    res.render("quizzes.ejs");
+    res.render("quizzes.ejs", { activeNav: "quizzes" });
 });
 
 app.get("/edit-quiz", (req, res) => {
-    res.render("edit-quiz.ejs");
+    res.render("edit-quiz.ejs", { activeNav: "quizzes" });
 });
 
 app.post("/save-quiz", (req, res) => {
-    res.render("quizzes.ejs");
+    res.render("quizzes.ejs", { activeNav: "quizzes" });
 });
 
 app.post("/delete-quiz", (req, res) => {
     console.log('delete quiz');
-    res.render("quizzes.ejs");
+    res.render("quizzes.ejs", { activeNav: "quizzes" });
 });
 
 /* Search routes */

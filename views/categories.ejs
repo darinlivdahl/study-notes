@@ -7,20 +7,19 @@
     <h1 class="mb-4">Categories</h1>
 
     <% if (locals.categories) { %>
-    <!-- Begin category cards grid -->
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         <% categories.forEach(c => { %>
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <form method="get" action="/category/<%= c.id %>">
+                    <form method="post" action="/delete-category">
                         <input type="hidden" name="categoryId" value="<%= c.id %>">
                         <div class="float-start">
-                            <button type="submit" class="btn btn-lg btn-link"><%= c.title %></button>
+                            <a href="/category/<%= c.id %>" class="btn btn-lg btn-link"><%= c.title %></a>
                         </div>
                         <div class="float-end">
-                            <a href="/edit-category/<%= c.id %>" aria-label="Edit" title="Edit category" class="btn btn-lg btn-link"><i class="bi bi-pencil-square"></i></a>
-                            <button type="submit" formaction="/delete-category" formmethod="post" aria-label="Delete" title="Delete category" class="btn btn-lg btn-link"><i class="bi bi-trash-fill"></i></button>
+                            <a href="/edit-category/<%= c.id %>" aria-label="Edit" title="Edit <%= c.title %> category" class="btn btn-lg btn-link"><i class="bi bi-pencil-square"></i></a>
+                            <button type="submit" aria-label="Delete" title="Delete <%= c.title %> category" class="btn btn-lg btn-link link-danger"><i class="bi bi-trash-fill"></i></button>
                         </div>
                     </form>
                 </div>
@@ -31,7 +30,6 @@
     <% } else { %>
     <p>No categories at this time.</p>
     <% } %>
-    <!-- End category cards grid -->
 </div>
     
 <%- include('partials/footer.ejs') %>
