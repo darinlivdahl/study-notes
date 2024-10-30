@@ -1,0 +1,37 @@
+<%- include('partials/header.ejs') %>
+
+<div class="container">
+    <div class="d-grid gap-2 col-6 mx-auto mb-5">
+        <a class="btn btn-primary" href="/add-category" type="button">Add Category</a>
+    </div>
+    <h1 class="mb-4">Categories</h1>
+
+    <% if (locals.categories) { %>
+    <!-- Begin category cards grid -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <% categories.forEach(c => { %>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" action="/category/<%= c.id %>">
+                        <input type="hidden" name="categoryId" value="<%= c.id %>">
+                        <div class="float-start">
+                            <button type="submit" class="btn btn-lg btn-link"><%= c.title %></button>
+                        </div>
+                        <div class="float-end">
+                            <a href="/edit-category/<%= c.id %>" aria-label="Edit" title="Edit category" class="btn btn-lg btn-link"><i class="bi bi-pencil-square"></i></a>
+                            <button type="submit" formaction="/delete-category" formmethod="post" aria-label="Delete" title="Delete category" class="btn btn-lg btn-link"><i class="bi bi-trash-fill"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <p>No categories at this time.</p>
+    <% } %>
+    <!-- End category cards grid -->
+</div>
+    
+<%- include('partials/footer.ejs') %>
