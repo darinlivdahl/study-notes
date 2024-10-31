@@ -42,6 +42,7 @@ function flatten(arr) {
 
 async function getCategories() {
     const result = await db.query("SELECT id, title FROM category ORDER BY title ASC");
+    // TODO: just return the result, no need to loop?
     let categories = [];
     result.rows.forEach((category) => {
         categories.push(category);
