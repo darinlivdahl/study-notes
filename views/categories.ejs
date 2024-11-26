@@ -5,8 +5,7 @@
         <a class="btn btn-primary" href="/add-category" type="button">Add Category</a>
     </div>
     <h1 class="mb-4">Categories</h1>
-
-    <% if (locals.categories) { %>
+    <% if (locals.categories && categories.length) { %>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         <% categories.forEach(c => { %>
         <div class="col">
@@ -28,7 +27,7 @@
         <% }); %>
     </div>
     <% } else { %>
-    <p>No categories at this time.</p>
+    <p>No categories at this time. Create one with that big button above.</p>
     <% } %>
 </div>
     

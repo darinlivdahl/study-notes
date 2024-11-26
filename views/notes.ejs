@@ -1,7 +1,16 @@
 <%- include('partials/header.ejs') %>
 
 <div class="container">
-    <h1 class="mb-4">Search Results</h1>
+    <div class="d-grid gap-2 col-6 mx-auto mb-5">
+        <a class="btn btn-primary" href="/add-note">Add Note</a>
+    </div>
+    <h1 class="mb-4">All Notes</h1>
+    <% if (locals.error) { %>
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">Oops! An error has occurred.</h5>
+            <%= error %>
+        </div>
+    <% } %>
     <% if (locals.notes && notes.length) { %>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         <% notes.forEach(n => { %>

@@ -30,6 +30,7 @@
                         <a class="nav-link" href="/">Home</a>
                         <% } %>
                     </li>
+                    <% if (locals.loggedIn === true) { %>
                     <li class="nav-item">
                         <% if (locals.activeNav && activeNav === "categories") { %>
                         <a class="nav-link active" aria-current="page" href="/categories">Categories</a>
@@ -44,11 +45,32 @@
                         <a class="nav-link" href="/quizzes">Quizzes</a>
                         <% } %>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout <small>(<%= user %>)</small></a>
+                    </li>
+                    <% } else { %>
+                    <li class="nav-item">
+                        <% if (locals.activeNav && activeNav === "login") { %>
+                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                        <% } else { %>
+                        <a class="nav-link" href="/login">Login</a>
+                        <% } %>
+                    </li>
+                    <li class="nav-item">
+                        <% if (locals.activeNav && activeNav === "register") { %>
+                        <a class="nav-link active" aria-current="page" href="/register">Register</a>
+                        <% } else { %>
+                        <a class="nav-link" href="/register">Register</a>
+                        <% } %>
+                    </li>
+                    <% } %>
                 </ul>
+                <% if (locals.loggedIn === true) { %>
                 <form class="d-flex" role="search" method="post" action="/search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" name="searchKeyword" placeholder="Search" aria-label="Search" required>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+                <% } %>
             </div>
         </div>
     </nav>
